@@ -5,7 +5,7 @@ module.exports = [
       name: 'strapi::cors',
       config: {
         enabled: true,
-        origin: ['http://localhost:5173', 'https://yourwebsite.com'],
+        origin: ['http://localhost:5173', 'https://www.themilie.com'],
         headers: '*',
         methods: ['GET','POST','PUT','PATCH','DELETE','HEAD','OPTIONS'],
       },
