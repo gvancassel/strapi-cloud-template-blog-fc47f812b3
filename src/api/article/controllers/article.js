@@ -27,7 +27,7 @@ module.exports = createCoreController('api::article.article', ({ strapi }) => ({
     ctx.query = {
       ...ctx.query,
       populate: {
-        category: true,
+no        category: true,
         author: { populate: '*' },
         blocks: { populate: '*' },
       },
