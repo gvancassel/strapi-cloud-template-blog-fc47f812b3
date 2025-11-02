@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_shared_video_embeds",
+  "info": {
+    "displayName": "Video Embed",
+    "icon": "play",
+    "description": "Embed videos from YouTube, Vimeo, or other platforms"
+  },
+  "options": {},
+  "attributes": {
+    "url": {
+      "type": "string",
+      "required": true,
+      "description": "Embed URL (e.g., https://www.youtube.com/embed/VIDEO_ID or https://player.vimeo.com/video/VIDEO_ID)"
+    },
+    "title": {
+      "type": "string",
+      "description": "Optional title for the video"
+    }
+  }
+}
+
