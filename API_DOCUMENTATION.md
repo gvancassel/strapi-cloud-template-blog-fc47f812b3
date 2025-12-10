@@ -28,6 +28,7 @@ https://your-strapi-instance.com/api
 | `author` | relation | Author relation | No |
 | `category` | relation | Category relation | No |
 | `blocks` | dynamiczone | Content blocks (rich text, media, etc.) | No |
+| `seo` | component | SEO metadata (metaTitle, metaDescription, shareImage) | No |
 | `publishedAt` | datetime | Publication date | Yes |
 | `createdAt` | datetime | Creation date | Yes (auto) |
 | `updatedAt` | datetime | Last update date | Yes (auto) |
@@ -117,6 +118,21 @@ Articles can contain multiple block types in the `blocks` field:
   "id": 127,
   "url": "https://www.youtube.com/embed/VIDEO_ID",
   "title": "Video title"
+}
+```
+
+#### SEO Component (`shared.seo`)
+```json
+{
+  "metaTitle": "Article Title for Social Media",
+  "metaDescription": "Article description for search engines and social media",
+  "shareImage": {
+    "id": 10,
+    "url": "https://...",
+    "alternativeText": "Alt text",
+    "width": 1200,
+    "height": 630
+  }
 }
 ```
 

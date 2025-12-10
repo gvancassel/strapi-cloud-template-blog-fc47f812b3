@@ -36,6 +36,14 @@ module.exports = createCoreController('api::article.article', ({ strapi }) => ({
         cover: ctx.query?.populate?.cover !== false
           ? { fields: ['url', 'alternativeText', 'width', 'height'] }
           : false,
+        seo: ctx.query?.populate?.seo !== false
+          ? {
+              fields: ['metaTitle', 'metaDescription'],
+              populate: {
+                shareImage: { fields: ['url', 'alternativeText', 'width', 'height'] },
+              },
+            }
+          : false,
       },
       // Only set publicationState if not explicitly provided
       publicationState: ctx.query?.publicationState || 'live',
@@ -81,6 +89,14 @@ module.exports = createCoreController('api::article.article', ({ strapi }) => ({
             'shared.video-embed': { fields: ['url', 'title'] },
           },
         } : false,
+        seo: ctx.query?.populate?.seo !== false
+          ? {
+              fields: ['metaTitle', 'metaDescription'],
+              populate: {
+                shareImage: { fields: ['url', 'alternativeText', 'width', 'height', 'mime', 'size'] },
+              },
+            }
+          : false,
       },
       // Only set publicationState if not explicitly provided
       publicationState: ctx.query?.publicationState || 'live',
