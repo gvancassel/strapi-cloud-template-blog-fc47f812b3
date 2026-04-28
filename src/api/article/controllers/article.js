@@ -71,24 +71,31 @@ module.exports = createCoreController('api::article.article', ({ strapi }) => ({
         thumbnail: ctx.query?.populate?.thumbnail !== false
           ? { fields: ['url', 'alternativeText', 'width', 'height', 'mime', 'size'] }
           : false,
-        blocks: ctx.query?.populate?.blocks !== false ? {
-          populate: {
-            'shared.rich-text': { fields: ['body'] },
-            'shared.quote': { fields: ['title', 'body'] },
-            'shared.media': {
-              fields: [],
-              populate: {
-                file: { fields: ['url', 'alternativeText', 'width', 'height', 'mime', 'size'] },
+        // Strapi 5: dynamic zones use `on` per component UID (not nested `populate`)
+        blocks: ctx.query?.populate?.blocks !== false
+          ? {
+              on: {
+                'shared.rich-text': { fields: ['body'] },
+                'shared.quote': { fields: ['title', 'body'] },
+                'shared.media': {
+                  fields: [],
+                  populate: {
+                    file: {
+                      fields: ['url', 'alternativeText', 'width', 'height', 'mime', 'size'],
+                    },
+                  },
+                },
+                'shared.slider': {
+                  populate: {
+                    files: {
+                      fields: ['url', 'alternativeText', 'width', 'height', 'mime', 'size'],
+                    },
+                  },
+                },
+                'shared.video-embed': { fields: ['url', 'title'] },
               },
-            },
-            'shared.slider': {
-              populate: {
-                files: { fields: ['url', 'alternativeText', 'width', 'height', 'mime', 'size'] },
-              },
-            },
-            'shared.video-embed': { fields: ['url', 'title'] },
-          },
-        } : false,
+            }
+          : false,
         seo: ctx.query?.populate?.seo !== false
           ? {
               fields: ['metaTitle', 'metaDescription'],
