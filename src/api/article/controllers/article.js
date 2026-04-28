@@ -5,6 +5,18 @@
  */
 
 const { createCoreController } = require('@strapi/strapi').factories;
+const { enrichVideoEmbedBlocks } = require('../../../utils/video-embed');
+
+function enrichArticles(data) {
+  if (!data) return data;
+  const items = Array.isArray(data) ? data : [data];
+  for (const item of items) {
+    if (item && Array.isArray(item.blocks)) {
+      enrichVideoEmbedBlocks(item.blocks);
+    }
+  }
+  return data;
+}
 
 module.exports = createCoreController('api::article.article', ({ strapi }) => ({
   async find(ctx) {
@@ -50,7 +62,7 @@ module.exports = createCoreController('api::article.article', ({ strapi }) => ({
     };
 
     const { data, meta } = await super.find(ctx);
-    return { data, meta };
+    return { data: enrichArticles(data), meta };
   },
 
   async findOne(ctx) {
@@ -110,6 +122,6 @@ module.exports = createCoreController('api::article.article', ({ strapi }) => ({
     };
 
     const { data, meta } = await super.findOne(ctx);
-    return { data, meta };
+    return { data: enrichArticles(data), meta };
   },
 }));
