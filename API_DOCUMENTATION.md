@@ -112,14 +112,54 @@ Articles can contain multiple block types in the `blocks` field:
 ```
 
 #### 5. Video Embed (`shared.video-embed`)
+
+Editors can paste **any** YouTube or Vimeo URL in the admin (share link, watch URL,
+`youtu.be`, shorts, embed, `player.vimeo.com`, etc.). The API auto-detects the
+provider and exposes a ready-to-use `embedUrl` plus `provider` / `videoId` so the
+frontend can render an iframe (or a custom player) without doing any URL parsing.
+
 ```json
 {
   "__component": "shared.video-embed",
   "id": 127,
-  "url": "https://www.youtube.com/embed/VIDEO_ID",
-  "title": "Video title"
+  "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  "title": "Video title",
+  "provider": "youtube",
+  "videoId": "dQw4w9WgXcQ",
+  "embedUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
 }
 ```
+
+| Field      | Type                              | Description                                                       |
+|------------|-----------------------------------|-------------------------------------------------------------------|
+| `url`      | string                            | The original URL the editor pasted.                               |
+| `title`    | string \| null                    | Optional title.                                                   |
+| `provider` | `"youtube"` \| `"vimeo"` \| null  | Detected provider (null if URL is unrecognized).                  |
+| `videoId`  | string \| null                    | Extracted video id (e.g. `dQw4w9WgXcQ` or `123456789`).           |
+| `embedUrl` | string \| null                    | iframe-safe URL (`youtube.com/embed/…` or `player.vimeo.com/video/…`). |
+
+**Frontend example (React):**
+
+```jsx
+function VideoEmbed({ block }) {
+  if (!block.embedUrl) return null;
+  return (
+    <div style={{ position: 'relative', paddingTop: '56.25%' }}>
+      <iframe
+        src={block.embedUrl}
+        title={block.title || 'Embedded video'}
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0 }}
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
+    </div>
+  );
+}
+```
+
+> Note: `provider`, `videoId`, and `embedUrl` are computed at response time by the
+> article controller — they are not stored in the database. Only `url` and `title`
+> need to be sent on writes.
 
 #### SEO Component (`shared.seo`)
 ```json

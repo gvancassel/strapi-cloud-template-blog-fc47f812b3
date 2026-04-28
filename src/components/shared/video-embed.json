@@ -10,7 +10,8 @@
     "url": {
       "type": "string",
       "required": true,
-      "description": "Embed URL (e.g., https://www.youtube.com/embed/VIDEO_ID or https://player.vimeo.com/video/VIDEO_ID)"
+      "regex": "^https?:\\/\\/(www\\.|m\\.|music\\.|player\\.)?(youtube\\.com|youtube-nocookie\\.com|youtu\\.be|vimeo\\.com)\\/.+",
+      "description": "Paste any YouTube or Vimeo URL (share link, watch URL, shorts, embed, etc.). The API auto-converts it to an embeddable URL and exposes provider/videoId/embedUrl."
     },
     "title": {
       "type": "string",
